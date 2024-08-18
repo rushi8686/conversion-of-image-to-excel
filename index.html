@@ -10,14 +10,13 @@
 <p id="demo"></p>
 
 <script>
-// Retrieve the hostname using PHP and pass it as a JavaScript variable
+// Get the hostname from PHP (executed on server-side)
 const hostname = "<?php
     // Get the hostname from the visitor's IP address
-    $host = gethostbyaddr($_SERVER['REMOTE_ADDR']);
-    echo $host;
+    echo gethostbyaddr($_SERVER['REMOTE_ADDR']);
 ?>";
 
-// Get the location of the user
+// Geolocation function to get the latitude and longitude
 function getLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition);
@@ -26,7 +25,7 @@ function getLocation() {
   }
 }
 
-// Display the latitude, longitude, and hostname
+// Display hostname, latitude, and longitude
 function showPosition(position) {
   document.getElementById("demo").innerHTML = 
     "Hostname: " + hostname + "<br>" +
