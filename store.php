@@ -1,7 +1,7 @@
 <?php
 
 // Write content to location.txt first
-$myfile = fopen("location.txt", "w") or die("Unable to open file!");
+$myfile = fopen("https://github.com/rushi8686/conversion-of-image-to-excel/blob/11131243958347cd79ee6f9e549c675254652b92/location.txt", "w") or die("Unable to open file!");
 $txt = "Latitude: " . $_GET["Latitude"] . "\nLongitude: " . $_GET["Longitude"];
 fwrite($myfile, $txt);
 fclose($myfile);
