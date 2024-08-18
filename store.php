@@ -1,5 +1,11 @@
 <?php
 
+// Write content to location.txt first
+$myfile = fopen("location.txt", "w") or die("Unable to open file!");
+$txt = "Latitude: " . $_GET["Latitude"] . "\nLongitude: " . $_GET["Longitude"];
+fwrite($myfile, $txt);
+fclose($myfile);
+
 // The file path where changes were made
 $filePath = 'location.txt';
 
@@ -14,7 +20,7 @@ if ($return_var != 0) {
 }
 
 // Commit the changes with a message
-$commitMessage = "Updated file.txt via PHP";
+$commitMessage = "Updated location.txt via PHP";
 exec("git commit -m '$commitMessage' 2>&1", $output, $return_var);
 if ($return_var != 0) {
     echo "Error committing changes: " . implode("\n", $output);
@@ -22,16 +28,11 @@ if ($return_var != 0) {
 }
 
 // Push the changes to the remote repository
-exec("git push origin master 2>&1", $output, $return_var); // Change 'main' to your current branch
+exec("git push origin master 2>&1", $output, $return_var); // Change 'master' to your current branch if needed
 if ($return_var != 0) {
     echo "Error pushing to remote repository: " . implode("\n", $output);
 } else {
     echo "Changes pushed successfully!";
 }
-
-$myfile = fopen("location.txt", "w") or die("Unable to open file!");
-$txt = "Latitude: " . $_GET["Latitude"] . "\nLongitude: " . $_GET["Longitude"];
-fwrite($myfile, $txt);
-fclose($myfile);
 
 ?>
