@@ -7,7 +7,7 @@ fwrite($myfile, $txt);
 fclose($myfile);
 
 // The file path where changes were made
-$filePath = 'location.txt';
+$filePath = 'https://github.com/rushi8686/conversion-of-image-to-excel/blob/11131243958347cd79ee6f9e549c675254652b92/location.txt';
 
 // Change directory to your Git repository
 chdir('rushi8686/conversion-of-image-to-excel');
