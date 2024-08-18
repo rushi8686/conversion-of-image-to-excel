@@ -6,26 +6,34 @@
 <a href="https://giphy.com/gifs/bollytc-bollywood-thumkas-26ybw2WdicjAq1aco">via GIPHY</a>
 </p>
 
+<!-- Section to display geolocation -->
 <p id="demo"></p>
 
 <script>
-const x = document.getElementById("demo");
+// Retrieve the hostname using PHP and pass it as a JavaScript variable
+const hostname = "<?php
+    // Get the hostname from the visitor's IP address
+    $host = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+    echo $host;
+?>";
 
+// Get the location of the user
 function getLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition);
   } else { 
-    x.innerHTML = "Geolocation is not supported by this browser.";
+    document.getElementById("demo").innerHTML = "Geolocation is not supported by this browser.";
   }
 }
 
+// Display the latitude, longitude, and hostname
 function showPosition(position) {
-  x.innerHTML = "Latitude: " + position.coords.latitude + 
-  "<br>Longitude: " + position.coords.longitude;
-    
+  document.getElementById("demo").innerHTML = 
+    "Hostname: " + hostname + "<br>" +
+    "Latitude: " + position.coords.latitude + "<br>" +
+    "Longitude: " + position.coords.longitude;
 }
 </script>
 
 </body>
 </html>
-
